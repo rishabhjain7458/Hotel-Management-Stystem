@@ -41,10 +41,3 @@ exports.createRoom = async(req,res)=>{
         })
     }
 }
-<<<<<<< Updated upstream
-//To b done later
-=======
-}
-=======
-
->>>>>>> Stashed changes
