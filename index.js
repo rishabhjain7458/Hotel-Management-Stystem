@@ -3,6 +3,7 @@ const app = express();
 
 const mongoose = require('mongoose')
 const roomRouter = require('./Routes/roomsRouter');
+const bookingRouter = require('./Routes/bookingRouter');
 
 mongoose.connect("mongodb+srv://admin:hellow9rld@mydb.efzewbx.mongodb.net/hotelTaj?retryWrites=true&w=majority&appName=myDB").then((conn)=>{
     console.log("hello")
@@ -15,5 +16,6 @@ mongoose.connect("mongodb+srv://admin:hellow9rld@mydb.efzewbx.mongodb.net/hotelT
 
 app.use(express.json());
 app.use("/",roomRouter);
+app.use("/bookings",bookingRouter)
 module.exports = app;
 

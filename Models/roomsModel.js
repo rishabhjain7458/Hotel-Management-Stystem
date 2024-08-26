@@ -35,7 +35,8 @@ const roomSchema = new mongoose.Schema({
         type: String
     },
     readyForCheckIn:{
-        type: Boolean
+        type: Boolean,
+        default:true
     }
 },
 {

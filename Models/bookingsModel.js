@@ -8,6 +8,10 @@ const bookingSchema = new mongoose.Schema({
         type:Date,
         required:[true,"This is a required field"]
     },
+    roomBooked:{
+        type: String,
+        required:[true,"This is a required field"]
+    },
     customerName:{
         type: String,
         required:[true,"This is a required field"]
@@ -26,3 +30,7 @@ const bookingSchema = new mongoose.Schema({
     toObject:{virtuals:true}
 }
 )
+
+const Bookings = mongoose.model("bookings",bookingSchema);
+
+module.exports = Bookings;
