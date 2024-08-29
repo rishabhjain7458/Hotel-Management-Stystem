@@ -32,10 +32,9 @@ exports.bookRoom = async (req, res) => {
         const booking = await Bookings.create(req.body);
 
         // Update the room's availability status
-        await Rooms.findByIdAndUpdate(new mongoose.Types.ObjectId(req.body.roomId), { readyForCheckIn: false });
-
-
-        console.log(booking);
+        console.log(req.params);
+        const testbooking=await Rooms.findOneAndUpdate({name: req.body.roomBooked, "readyForCheckIn": false });
+        console.log(testbooking);
 
         res.status(201).json({
             status: "success",
@@ -49,4 +48,57 @@ exports.bookRoom = async (req, res) => {
             message: err.message
         });
     }
-};
+}
+
+
+exports.deleteBooking = async (req, res) => {
+    try {
+        if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+            return res.status(400).json({
+                status: "fail",
+                message: "Invalid ID format"
+            });
+        }
+        const roomIdToDelete = await Bookings.findById(req.params.id,)
+        const result = await Rooms.findOneAndUpdate({name: req.body.roomBooked, "readyForCheckIn": true });
+        console.log(result);
+        const booking = await Bookings.findByIdAndDelete(req.params.id);
+        if (!booking) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No booking found with that ID"
+            });
+        }
+
+        res.status(204).json({
+            status: "success",
+            data: null
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message
+        });
+    }
+}
+
+exports.deleteAllBookings = async (req, res) => {
+    try {
+        // Attempting to perform the delete operation
+        const result = await Bookings.deleteMany({});
+        
+        // If the operation succeeds, send a 204 No Content response
+        res.status(204).json({
+            status: "success",
+            data: null
+        });
+    } catch (err) {
+        // If there's an error, send a 400 Bad Request response with the error message
+        res.status(400).json({
+            status: "fail",
+            message: err.message
+        });
+    }
+}
+
+

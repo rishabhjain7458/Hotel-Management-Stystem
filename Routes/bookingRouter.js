@@ -4,13 +4,14 @@ const bookingRouter = express.Router();
 
 const roomMiddleware = require("./../Middlewares/roomMiddleware.js")
 
-const bookingConrollers = require("./../Controllers/bookingController.js")
+const bookingControllers = require("./../Controllers/bookingController.js")
 
 bookingRouter.route("/")
-.get(bookingConrollers.getbookings)
-
+.get(bookingControllers.getbookings)
+.delete(bookingControllers.deleteAllBookings)
+.post(roomMiddleware.checkRoomAvailability,bookingControllers.bookRoom)
 
 bookingRouter.route("/:id")
-.post(roomMiddleware.checkRoomAvailability,bookingConrollers.bookRoom);
+.delete(bookingControllers.deleteBooking)
 
 module.exports = bookingRouter;

@@ -33,11 +33,51 @@ exports.createRoom = async(req,res)=>{
             data:{
                 room:room
             }
-        })
+        }) 
     }catch(err){
         res.status(400).json({
             status:"fail",
             message:err.message
         })
+    }
+}
+
+exports.deleteRoom = async (req, res) => {
+    try {
+        const room = await Rooms.findByIdAndDelete(req.params.id);
+
+        if (!room) {
+            return res.status(404).json({
+                status: "fail",
+                message: "No room found with that ID"
+            });
+        }
+
+        res.status(204).json({
+            status: "success",
+            data: null
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message
+        });
+    }
+}
+
+
+exports.deleteAllRooms = async (req, res) => {
+    try {
+        const result = await Rooms.deleteMany({});
+
+        res.status(204).json({
+            status: "success",
+            data: null
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: "fail",
+            message: err.message
+        });
     }
 }
