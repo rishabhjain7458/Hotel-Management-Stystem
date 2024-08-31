@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 const mongoose = require('mongoose');
 const roomRouter = require('./Routes/roomsRouter');
@@ -13,11 +14,11 @@ mongoose.connect("mongodb+srv://admin:hellow9rld@mydb.efzewbx.mongodb.net/hotelT
   .catch((err) => {
     console.log("Some error has occurred", err);
   });
-
+app.use(cors());
 app.use(express.json());
 
 // Use the correct path for authRouter
-app.use("/api/v1/users", authRouter);
+app.use("/users", authRouter);
 
 app.use("/rooms", roomRouter);
 app.use("/bookings", bookingRouter);
