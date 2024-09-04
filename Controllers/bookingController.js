@@ -9,11 +9,10 @@ const mongoose = require("mongoose");
 
 exports.getbookings = async(req,res)=>{
     try{
-        const features =new apiFeatures(Bookings.find(),req.query).filter().sort().limit_fields().pagination()
+        const features =new apiFeatures(Bookings.find(),req.query);
         let bookings = await features.query
         res.status(200).json({
             status: "success",
-            length:bookings.length,
             data:{
                 bookings:bookings
             }
@@ -100,5 +99,6 @@ exports.deleteAllBookings = async (req, res) => {
         });
     }
 }
+
 
 

@@ -29,6 +29,7 @@ const bookingSchema = new mongoose.Schema({
     toJSON:{virtuals:true},
     toObject:{virtuals:true}
 }
+
 )
 
 const Bookings = mongoose.model("bookings",bookingSchema);
