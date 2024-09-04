@@ -1,5 +1,4 @@
 const express = require("express");
-const fs=require("fs")
 const app=express();
 
 const Rooms = require("./../Models/roomsModel.js")
@@ -9,8 +8,7 @@ const mongoose = require("mongoose");
 
 exports.getbookings = async(req,res)=>{
     try{
-        const features =new apiFeatures(Bookings.find(),req.query);
-        let bookings = await features.query
+        let bookings = await Bookings.find();
         res.status(200).json({
             status: "success",
             data:{
