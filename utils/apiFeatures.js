@@ -1,58 +1,60 @@
 class apiFeatures {
-    constructor(query,queryStr){
-        this.query = query
-        this.queryStr = queryStr
+    constructor(query, queryStr) {
+        this.query = query;
+        this.queryStr = queryStr;
     }
 
-    filter(){
-        let excludeFields = ['sort','page','limit','fields'];
+    filter() {
+        const excludeFields = ['sort', 'page', 'limit', 'fields'];
+        const queryObj = { ...this.queryStr };
 
-        const queryObj = {...this.queryStr}
-        // console.log({...req.query})
-
-        excludeFields.forEach((el)=>{
+        // Exclude unwanted fields
+        excludeFields.forEach((el) => {
             delete queryObj[el];
-        })
-    
-        console.log(queryObj);
-    
-        //ADDING DOLLAR SIGN
+        });
+
+        console.log("Filtered Query Object: ", queryObj); // Debug log
+
+        // Adding dollar sign to operators (like gte, lte)
         let queryStr1 = JSON.stringify(queryObj);
-    
-        queryStr1 = queryStr1.replace(/\b(gte|gt|lt|lte)\b/g,(match)=>`$${match}`)
-        let queryObj2 = JSON.parse(queryStr1);
+        queryStr1 = queryStr1.replace(/\b(gte|gt|lt|lte)\b/g, (match) => `$${match}`);
+        const queryObj2 = JSON.parse(queryStr1);
+
+        // Apply the filter to the query
         this.query = this.query.find(queryObj2);
-        return this 
-        // let query = Movie.find(queryObj2);
-    }
-    
-    sort(){
-    if(this.queryStr.sort){
-            const sortBy = this.queryStr.sort
-            this.query = this.query.sort(sortBy)
-        }
-        return this
+        console.log("Query after filtering: ", this.query); // Debug log
+        return this;
     }
 
-    limit_fields(){
-        if(this.queryStr.fields){
-            const fields = this.queryStr.fields.split(',').join(" ")
-            //"name duration ratings"
-            console.log(this.query.fields);
-            this.query = this.query.select(fields);   
+    sort() {
+        if (this.queryStr.sort) {
+            const sortBy = this.queryStr.sort.split(',').join(' '); // Handle multiple sort fields
+            this.query = this.query.sort(sortBy);
+        } else {
+            this.query = this.query.sort('-createdAt'); // Default sort by creation date, for example
+        }
+        console.log("Query after sorting: ", this.query); // Debug log
+        return this;
     }
-    return this
+
+    limit_fields() {
+        if (this.queryStr.fields) {
+            const fields = this.queryStr.fields.split(',').join(' ');
+            this.query = this.query.select(fields);
+        }
+        console.log("Query after limiting fields: ", this.query); // Debug log
+        return this;
     }
-    pagination(){
-        const page = this.queryStr.page*1 || 1;
-        const limit = this.queryStr.limit*1 || 10;
-    
-        // p-0 s-0, p-1 s-10 data-11-20, p-3 s-20 data-21-30
-        const skip = (page-1)*limit;
-    
-        this.query = this.query.skip(skip).limit(limit)
-        return this
+
+    pagination() {
+        const page = this.queryStr.page * 1 || 1;
+        const limit = this.queryStr.limit * 1 || 10;
+        const skip = (page - 1) * limit;
+
+        this.query = this.query.skip(skip).limit(limit);
+        console.log("Query after pagination: ", this.query); // Debug log
+        return this;
     }
 }
 
-module.exports = apiFeatures
+module.exports = apiFeatures;

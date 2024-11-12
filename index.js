@@ -5,6 +5,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const roomRouter = require('./Routes/roomsRouter');
 const bookingRouter = require('./Routes/bookingRouter');
+const eventRouter = require('./Routes/eventRouter');
 const authRouter = require('./Routes/authRouter'); // Ensure this path is correct
 
 mongoose.connect("mongodb+srv://admin:hellow9rld@mydb.efzewbx.mongodb.net/hotelTaj?retryWrites=true&w=majority&appName=myDB")
@@ -22,5 +23,5 @@ app.use("/users", authRouter);
 
 app.use("/rooms", roomRouter);
 app.use("/bookings", bookingRouter);
-
+app.use("/events",eventRouter);
 module.exports = app;
