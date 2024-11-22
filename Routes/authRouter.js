@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/signup', authController.signup);
 
+router.post('/google-login', authController.googleLogin);
 
 router.post('/login', authController.login);
 
